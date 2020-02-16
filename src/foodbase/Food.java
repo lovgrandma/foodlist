@@ -1,98 +1,99 @@
 package foodbase;
 import java.util.ArrayList;
+import java.util.UUID;
+import java.util.function.Consumer;
+import java.lang.Enum;
 
 public class Food {
+    
+    private UUID uuid;
+    private String name;
+    private String description;
+    private ArrayList<FoodGroup> FoodGroups = new ArrayList<FoodGroup>();
+    private String servingSize;
+    private int calories;
+    private String style;
+    
+    // Initialize a basic food item with minimal required data fields.
+    Food(String name, String description, ArrayList<FoodGroup> fg) {
+        this.name = name; 
+        this.description = description;
+        this.uuid = setUuid();
+        for (int i = 0; i < fg.size(); i++) { // Iterates through fg array argument and adds to this foods foodgroups
+            FoodGroups.add(FoodGroup.valueOf(fg.get(i).toString().toUpperCase()));
+        }
+    }
 
-	private String uuid;
-	private String name;
-	private String description;
-	private ArrayList<FoodGroup> foodGroup;
-	private String servingSize;
-	private int calories;
-	private String style;
+    public String getUuid() {
+            return this.uuid.toString();
+    }
 
-	public String getUuid() {
-		return this.uuid;
-	}
+    private UUID setUuid() {
+            return this.uuid = UUID.randomUUID();
+    }
 
-	/**
-	 * 
-	 * @param uuid
-	 */
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
+    public String getName() {
+            return this.name;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setName(String name) {
+            this.name = name;
+    }
 
-	/**
-	 * 
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getDescription() {
+            return this.description;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public void setDescription(String description) {
+            this.description = description;
+    }
 
-	/**
-	 * 
-	 * @param description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    // Gets arraylist of all foodgroups belonging to food
+    public ArrayList<FoodGroup> getFoodGroups() {
+            return this.FoodGroups;
+    }
 
-	public ArrayList<FoodGroup> getFoodGroup() {
-		return this.foodGroup;
-	}
+      // Need to add functionality that prevents foodgroups from being added twice
+//    public void setFoodGroup(ArrayList<FoodGroup> foodGroup) {
+//            this.FoodGroups = foodGroup;
+//    }
 
-	/**
-	 * 
-	 * @param foodGroup
-	 */
-	public void setFoodGroup(ArrayList<FoodGroup> foodGroup) {
-		this.foodGroup = foodGroup;
-	}
+    public String getServingSize() {
+            return this.servingSize;
+    }
 
-	public String getServingSize() {
-		return this.servingSize;
-	}
+    public void setServingSize(String servingSize) {
+            this.servingSize = servingSize;
+    }
 
-	/**
-	 * 
-	 * @param servingSize
-	 */
-	public void setServingSize(String servingSize) {
-		this.servingSize = servingSize;
-	}
+    public int getCalories() {
+            return this.calories;
+    }
 
-	public int getCalories() {
-		return this.calories;
-	}
+    public void setCalories(int calories) {
+            this.calories = calories;
+    }
 
-	/**
-	 * 
-	 * @param calories
-	 */
-	public void setCalories(int calories) {
-		this.calories = calories;
-	}
+    public String getStyle() {
+            return this.style;
+    }
 
-	public String getStyle() {
-		return this.style;
-	}
+    public void setStyle(String style) {
+            this.style = style;
+    }
 
-	/**
-	 * 
-	 * @param style
-	 */
-	public void setStyle(String style) {
-		this.style = style;
-	}
+    public String toString() {
+        String output = this.getName() + "\nDescription: " + this.getDescription() + "\n";
+        if (this.FoodGroups.size() > 0) {
+            output += "Food groups: ";
+            for (int i = 0; i < this.FoodGroups.size() ; i++) {
+                output += this.FoodGroups.get(i);
+                if (i != this.FoodGroups.size() -1) {
+                    output += ", ";
+                }
+            }
+        }
+        return output;
+    }
 
 }
