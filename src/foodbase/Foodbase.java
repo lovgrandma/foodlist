@@ -7,15 +7,19 @@ package foodbase;
 
 /**
  *
- * @author Owner
+ * @author Jesse
  */
 public class Foodbase {
-
-    /**
-     * @param args the command line arguments
-     */
+   
+    // Simple output method
+    public static void print(String b) {
+        System.out.println(b);
+    }   
+    
     public static void main(String[] args) {
         // TODO code application logic here
+        Food a = new Food("Chicken", "A great dish!");
+        print(a.toString());
     }
-    
+        
 }
