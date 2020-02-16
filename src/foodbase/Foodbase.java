@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package foodbase;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -17,8 +19,12 @@ public class Foodbase {
     }   
     
     public static void main(String[] args) {
-        // TODO code application logic here
-        Food a = new Food("Chicken", "A great dish!");
+        // This array intializing functionality could go into GUI class. This array is
+        // used to add foodgroup values to new food.
+        ArrayList<FoodGroup> foodgroups = new ArrayList();
+        foodgroups.add(FoodGroup.DAIRY);
+        foodgroups.add(FoodGroup.GRAINS);
+        Food a = new Food("Chicken", "A great dish!", foodgroups);
         print(a.toString());
     }
         
