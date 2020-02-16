@@ -20,7 +20,7 @@ public class Food {
         this.description = description;
         this.uuid = setUuid();
         for (int i = 0; i < fg.size(); i++) { // Iterates through fg array argument and adds to this foods foodgroups
-            FoodGroups.add(FoodGroup.valueOf(fg.get(i).toString().toUpperCase()));
+            this.FoodGroups.add(FoodGroup.valueOf(fg.get(i).toString().toUpperCase()));
         }
     }
 
