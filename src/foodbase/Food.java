@@ -18,7 +18,7 @@ public class Food {
     Food(String name, String description, ArrayList<FoodGroup> fg) {
         this.name = name; 
         this.description = description;
-        this.uuid = setUuid();
+        this.uuid = setUuid(); // unique identifier for food instance
         for (int i = 0; i < fg.size(); i++) { // Iterates through fg array argument and adds to this foods foodgroups
             this.FoodGroups.add(FoodGroup.valueOf(fg.get(i).toString().toUpperCase()));
         }

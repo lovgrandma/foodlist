@@ -7,8 +7,9 @@ package foodbase;
 
 /**
  *
- * @author Owner
+ * @author Jesse
  */
+// Food group enum for getting foodgroups belonging to Food class instance
 public enum FoodGroup {
     DAIRY(1, "dairy"),
     GRAINS(2, "grains"),
