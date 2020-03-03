@@ -10,6 +10,7 @@ import java.util.Scanner;
 /**
  *
  * @author Jesse
+ * @author Tyler
  */
 public class Foodbase {
    
