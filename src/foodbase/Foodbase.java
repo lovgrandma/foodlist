@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class Foodbase {
    
+    // Small updatae
     // Simple output method
     public static void print(String b) {
         System.out.println(b);
