@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<GridPane id="GridPane" prefHeight="300.0" prefWidth="280.0" alignment="TOP_CENTER" vgap="5" hgap="5" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="foodbase.Controller">
+    <padding>
+        <Insets top="5" left="5" bottom="5" right="5"/>
+    </padding>
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" />
+    </columnConstraints>
+    <Label fx:id="title" text="Foodbase!" GridPane.columnIndex="1" GridPane.columnSpan="4" />
+    <TextField fx:id="search" text="search.." GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="4" />
+    <Button fx:id="addNew" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <ComboBox fx:id="filter" value="filter" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+    <Label fx:id="name" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label fx:id="foodGroup" text="Food group" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <Label fx:id="calories" text="Calories" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+    <Label fx:id="edit" text="&#x270E;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+    <Label fx:id="del" text="&#x00d7;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+</GridPane>
