@@ -28,7 +28,7 @@ public class Controller implements Initializable {
     private TextField search;
     
     @FXML
-    private Button addNew, confirmAdd;
+    private Button addNew;
     
     @FXML
     private ComboBox filter;
@@ -36,27 +36,17 @@ public class Controller implements Initializable {
     @FXML
     void handleAdd(MouseEvent event) throws Exception {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Add.fxml"));
-            Parent root2 = (Parent) fxmlLoader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Add.fxml"));
+            loader.setController(new ControllerAdd());
+            Parent root2 = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle("add food");
             stage.setScene(new Scene(root2));
             stage.show();
-            handleAddConfirm();
             
         } catch (Exception e) {
             System.out.println(e + "2");
         }
-    }
-    
-    void handleAddConfirm() throws Exception {
-        confirmAdd.setOnMouseClicked((MouseEvent event2)-> {
-            try {
-                System.out.println("Confirm add");
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        });
     }
     
     @Override
