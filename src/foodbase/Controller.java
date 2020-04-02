@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.WindowEvent;
 
 /**
@@ -34,11 +35,14 @@ public class Controller implements Initializable {
     @FXML
     private ComboBox filter;
     
-    ArrayList<Food> dataFood = new ArrayList<Food>();
-    ArrayList<Food> foodView = new ArrayList<Food>();
+    @FXML
+    private StackPane foodNodes;
+    
+    ArrayList<Food> dataFood = new ArrayList<Food>(); // Holds entire database from file
+    ArrayList<Food> foodView = new ArrayList<Food>(); // Current view of appended food nodes the user sees on screen
     
     @FXML
-    void handleAdd(MouseEvent event) throws Exception {
+    void handleAdd(MouseEvent event) throws Exception { // Open view to add new food
         try {
             ControllerAdd a = new ControllerAdd();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Add.fxml"));
@@ -48,20 +52,33 @@ public class Controller implements Initializable {
             stage.setTitle("add food");
             stage.setScene(new Scene(root2));
             stage.show();
-            stage.setOnCloseRequest((WindowEvent event2)-> {
+            // Handle the adding of food to this controllers dataFood arraylist
+            stage.setOnCloseRequest((WindowEvent event2)-> { 
                 dataFood.add(a.consolidate());
+                try {
+                    this.appendFoodview(dataFood, a);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 for (Food food : dataFood) {
                     System.out.println(food);
                 }
             });
-            
         } catch (Exception e) {
             System.out.println(e + "2");
         }
     }
     
-    void appendFoodview(Food food) {
-        
+    // Will append foods to the view for user to see 
+    void appendFoodview(ArrayList<Food> data, ControllerAdd a) throws Exception {
+        try {
+            foodView.clear();
+            for (Food food : data) {
+                foodView.add(food);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     };
     
     @Override

@@ -27,5 +27,7 @@
     <TextField fx:id="styleField" promptText="style of dish" GridPane.rowIndex="9" GridPane.columnIndex="2" />
     <Button fx:id="confirmAdd" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="10" />
     <Button fx:id="cancelAdd" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-
+    <StackPane fx:id="foodNodes" GridPane.rowIndex="11" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
+        
+    </StackPane>
 </GridPane>
