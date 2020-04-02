@@ -81,7 +81,7 @@ public class Controller implements Initializable {
                 Label label = new Label(foodView.get(i).getName()); // Create each node with data
                 System.out.println(foodView.get(i).getName());
                 label.setPrefSize(100, 20);
-                GridPane.setRowIndex(label, i+7);
+                GridPane.setRowIndex(label, i+6);
                 GridPane.setColumnIndex(label, 1);
                 System.out.println(GridPane.getRowIndex(label));
                 foodNodes.getChildren().add(label);
