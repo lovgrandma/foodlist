@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 
 /**
  * @author Owner
@@ -33,21 +34,35 @@ public class Controller implements Initializable {
     @FXML
     private ComboBox filter;
     
+    ArrayList<Food> dataFood = new ArrayList<Food>();
+    ArrayList<Food> foodView = new ArrayList<Food>();
+    
     @FXML
     void handleAdd(MouseEvent event) throws Exception {
         try {
+            ControllerAdd a = new ControllerAdd();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Add.fxml"));
-            loader.setController(new ControllerAdd());
+            loader.setController(a);
             Parent root2 = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle("add food");
             stage.setScene(new Scene(root2));
             stage.show();
+            stage.setOnCloseRequest((WindowEvent event2)-> {
+                dataFood.add(a.consolidate());
+                for (Food food : dataFood) {
+                    System.out.println(food);
+                }
+            });
             
         } catch (Exception e) {
             System.out.println(e + "2");
         }
     }
+    
+    void appendFoodview(Food food) {
+        
+    };
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -19,8 +19,9 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -28,16 +29,77 @@ import javafx.scene.input.MouseEvent;
  */
 public class ControllerAdd implements Initializable {
     @FXML
-    private Button confirmAdd;
+    Button confirmAdd, cancelAdd;
     
+    @FXML
+    CheckBox dairy, protein, vege, grain, fruit;
+    
+    @FXML
+    TextField nameField, servingField, caloriesField, descField, styleField;
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        confirmAdd.setOnMouseClicked((MouseEvent event2)-> {
+        confirmAdd.setOnMouseClicked((MouseEvent e2)-> {
             try {
-                System.out.println("Confirm add");
+                Stage stage = (Stage) confirmAdd.getScene().getWindow();
+                stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
+        cancelAdd.setOnMouseClicked((MouseEvent e3 )-> {
+            try {
+                Stage stage = (Stage) cancelAdd.getScene().getWindow();
+                stage.close();
             } catch (Exception e) {
                 System.out.println(e);
             }
         });
     }
+    
+    public Food consolidate() {
+        System.out.println("consolidate running");
+        try {
+            String name = new String();
+            String desc = new String();
+            Boolean atleastOneFoodGroup = false;
+            ArrayList<FoodGroup> foodGroups = new ArrayList<FoodGroup>();
+            if (dairy.isSelected()) {
+                foodGroups.add(FoodGroup.DAIRY);
+            }
+            if (protein.isSelected()) {
+                foodGroups.add(FoodGroup.PROTEIN);
+            }
+            if (vege.isSelected()) {
+                foodGroups.add(FoodGroup.VEGETABLES);
+            }
+            if (grain.isSelected()) {
+                foodGroups.add(FoodGroup.GRAINS);
+            }
+            if (fruit.isSelected()) {
+                foodGroups.add(FoodGroup.FRUITS);
+            }
+            if (foodGroups.size() > 0) {
+                atleastOneFoodGroup = true;
+            }
+            if (nameField.getText().length() > 0 && descField.getText().length() > 0 && atleastOneFoodGroup) {
+                name = nameField.getText();
+                desc = descField.getText();
+                Food food = new Food(name, desc, foodGroups);
+                if (servingField.getText().length() > 0) {
+                    food.setServingSize(servingField.getText());
+                }
+                if (caloriesField.getText().length() > 0) {
+                    System.out.println(Integer.parseInt(caloriesField.getText()));
+                    food.setCalories(Integer.parseInt(caloriesField.getText()));
+                }
+                return food;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    } 
 }
