@@ -16,7 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -36,7 +39,7 @@ public class Controller implements Initializable {
     private ComboBox filter;
     
     @FXML
-    private StackPane foodNodes;
+    private GridPane foodNodes;
     
     ArrayList<Food> dataFood = new ArrayList<Food>(); // Holds entire database from file
     ArrayList<Food> foodView = new ArrayList<Food>(); // Current view of appended food nodes the user sees on screen
@@ -60,21 +63,28 @@ public class Controller implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                for (Food food : dataFood) {
-                    System.out.println(food);
-                }
             });
         } catch (Exception e) {
-            System.out.println(e + "2");
+            System.out.println(e);
         }
     }
     
     // Will append foods to the view for user to see 
     void appendFoodview(ArrayList<Food> data, ControllerAdd a) throws Exception {
         try {
-            foodView.clear();
+            foodView.clear(); // clear foodview array before adding all food over
             for (Food food : data) {
                 foodView.add(food);
+            }
+            foodNodes.getChildren().clear(); // Clears current children for food nodes view
+            for (int i = 0; i < foodView.size(); i++) {
+                Label label = new Label(foodView.get(i).getName()); // Create each node with data
+                System.out.println(foodView.get(i).getName());
+                label.setPrefSize(100, 20);
+                GridPane.setRowIndex(label, i+7);
+                GridPane.setColumnIndex(label, 1);
+                System.out.println(GridPane.getRowIndex(label));
+                foodNodes.getChildren().add(label);
             }
         } catch (Exception e) {
             e.printStackTrace();

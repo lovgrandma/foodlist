@@ -25,4 +25,7 @@
     <Label fx:id="calories" text="Calories" GridPane.columnIndex="3" GridPane.rowIndex="4" />
     <Label fx:id="edit" text="&#x270E;" GridPane.columnIndex="4" GridPane.rowIndex="4" />
     <Label fx:id="del" text="&#x00d7;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+    <GridPane fx:id="foodNodes" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
+        
+    </GridPane>
 </GridPane>

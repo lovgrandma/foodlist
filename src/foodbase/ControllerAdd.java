@@ -90,7 +90,6 @@ public class ControllerAdd implements Initializable {
                     food.setServingSize(servingField.getText());
                 }
                 if (caloriesField.getText().length() > 0) {
-                    System.out.println(Integer.parseInt(caloriesField.getText()));
                     food.setCalories(Integer.parseInt(caloriesField.getText()));
                 }
                 return food;
