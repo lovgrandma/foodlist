@@ -87,6 +87,16 @@ public class Controller implements Initializable {
                 Label caloriesLabel = new Label(String.valueOf(foodView.get(i).getCalories()));
                 Button editBtn = new Button("edit");
                 Button delBtn = new Button();
+                // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
+                delBtn.setOnMouseClicked((MouseEvent event)-> {
+                    try {
+                        System.out.println(foodNodes.getChildren().get(GridPane.getRowIndex(delBtn)-6));
+                        dataFood.remove(GridPane.getRowIndex(delBtn)-6);
+                        appendFoodview(data, a);
+                    } catch (Exception e) {
+                        
+                    }
+                });
                 System.out.println(foodView.get(i).getName());
                 label.setPrefWidth(20);
                 label.setAlignment(Pos.BASELINE_LEFT);
