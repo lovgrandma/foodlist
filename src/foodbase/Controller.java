@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -78,13 +79,29 @@ public class Controller implements Initializable {
             }
             foodNodes.getChildren().clear(); // Clears current children for food nodes view
             for (int i = 0; i < foodView.size(); i++) {
+                
                 Label label = new Label(foodView.get(i).getName()); // Create each node with data
+                Label label1 = new Label(""+foodView.get(i).getFoodGroups());
+                Label label2 = new Label("    "+foodView.get(i).getCalories());
+                Button delete = new Button();
                 System.out.println(foodView.get(i).getName());
-                label.setPrefSize(100, 20);
+                delete.setPrefSize(80, 20);
+                delete.setText("Delete");
+                label.setPrefSize(70, 20);
+                label1.setPrefSize(100, 20);
+                label2.setPrefSize(60, 20);
                 GridPane.setRowIndex(label, i+6);
                 GridPane.setColumnIndex(label, 1);
+                GridPane.setRowIndex(label1, i+6);
+                GridPane.setColumnIndex(label1, 2);
+                GridPane.setRowIndex(label2, i+6);
+                GridPane.setColumnIndex(label2, 3);
+                GridPane.setRowIndex(delete, i+6);
+                GridPane.setColumnIndex(delete, 5);
+                
                 System.out.println(GridPane.getRowIndex(label));
-                foodNodes.getChildren().add(label);
+                
+                foodNodes.getChildren().addAll(label,label1,label2,delete);
             }
         } catch (Exception e) {
             e.printStackTrace();
