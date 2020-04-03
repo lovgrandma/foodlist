@@ -28,6 +28,13 @@ import javafx.stage.WindowEvent;
  * @author Owner
  */
 public class ControllerAdd implements Initializable {
+    private Boolean edit = false;
+    private Food food;
+    // Set edit to true if editing food instead of adding
+    ControllerAdd(Boolean edit, Food food) {
+        this.edit = edit;
+        this.food = food;
+    }
     
     @FXML
     Button confirmAdd, cancelAdd;
@@ -40,6 +47,28 @@ public class ControllerAdd implements Initializable {
             
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (this.edit) {
+            confirmAdd.setText("Edit");
+            nameField.setText(food.getName());
+            servingField.setText(food.getServingSize());
+            caloriesField.setText(String.valueOf(food.getCalories()));
+            descField.setText(food.getDescription());
+            styleField.setText(food.getStyle());
+            for (int i = 0; i < food.getFoodGroups().size(); i++) {
+                System.out.println(food.getFoodGroups().get(i));
+                if (food.getFoodGroups().get(i).toString().toUpperCase().equals("DAIRY")) {
+                    dairy.setSelected(true);
+                } else if (food.getFoodGroups().get(i).toString().toUpperCase().equals("PROTEIN")) {
+                    protein.setSelected(true);
+                } else if (food.getFoodGroups().get(i).toString().toUpperCase().equals("VEGETABLES")) {
+                    vege.setSelected(true);
+                } else if (food.getFoodGroups().get(i).toString().toUpperCase().equals("GRAINS")) {
+                    grain.setSelected(true);
+                } else if (food.getFoodGroups().get(i).toString().toUpperCase().equals("FRUIT")) {
+                    fruit.setSelected(true);
+                }
+            }
+        }
         confirmAdd.setOnMouseClicked((MouseEvent e2)-> {
             try {
                 Stage stage = (Stage) confirmAdd.getScene().getWindow();
@@ -59,7 +88,6 @@ public class ControllerAdd implements Initializable {
     }
     
     public Food consolidate() {
-        System.out.println("consolidate running");
         try {
             String name = new String();
             String desc = new String();

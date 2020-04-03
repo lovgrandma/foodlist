@@ -50,7 +50,7 @@ public class Controller implements Initializable {
     @FXML
     void handleAdd(MouseEvent event) throws Exception { // Open view to add new food
         try {
-            ControllerAdd a = new ControllerAdd();
+            ControllerAdd a = new ControllerAdd(false, null);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Add.fxml"));
             loader.setController(a);
             Parent root2 = (Parent) loader.load();
@@ -69,6 +69,35 @@ public class Controller implements Initializable {
             });
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+    
+    void handleEdit(Food food, MouseEvent event, int i) {
+        try {
+            ControllerAdd b = new ControllerAdd(true, food);
+            FXMLLoader loader2 = new FXMLLoader(getClass().getResource("Add.fxml"));
+            loader2.setController(b);
+            Parent root3 = (Parent) loader2.load();
+            Stage stage2 = new Stage();
+            stage2.setTitle("edit food");
+            stage2.setScene(new Scene(root3));
+            stage2.show();
+            // Handle the adding of food to this controllers dataFood arraylist
+            stage2.setOnCloseRequest((WindowEvent event2)-> { 
+                System.out.println(i);
+                dataFood.remove(i);
+                dataFood.add(b.consolidate());
+                try {
+                    for (int j = 0; j < dataFood.size(); j++) {
+                        System.out.println(dataFood.get(j).getName());
+                    }
+                    this.appendFoodview(dataFood, b);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -93,6 +122,14 @@ public class Controller implements Initializable {
                         System.out.println(foodNodes.getChildren().get(GridPane.getRowIndex(delBtn)-6));
                         dataFood.remove(GridPane.getRowIndex(delBtn)-6);
                         appendFoodview(data, a);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                
+                editBtn.setOnMouseClicked((MouseEvent event2)-> {
+                    try {
+                        this.handleEdit(dataFood.get(GridPane.getRowIndex(editBtn)-6), event2, GridPane.getRowIndex(delBtn)-6);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

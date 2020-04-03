@@ -7,12 +7,12 @@ import java.lang.Enum;
 public class Food {
     
     private UUID uuid;
-    private String name;
-    private String description;
+    private String name = "";
+    private String description = "";
     private ArrayList<FoodGroup> FoodGroups = new ArrayList<FoodGroup>();
-    private String servingSize;
-    private int calories;
-    private String style;
+    private String servingSize = "";
+    private int calories = 0;
+    private String style = "";
     
     // Initialize a basic food item with minimal required data fields.
     Food(String name, String description, ArrayList<FoodGroup> fg) {
@@ -41,7 +41,11 @@ public class Food {
     }
 
     public String getDescription() {
+        if (this.description.length() > 0) {
             return this.description;
+        } else {
+            return "";
+        }
     }
 
     public void setDescription(String description) {
@@ -59,7 +63,11 @@ public class Food {
 //    }
 
     public String getServingSize() {
+        if (this.servingSize.length() > 0) {
             return this.servingSize;
+        } else {
+            return "";
+        }
     }
 
     public void setServingSize(String servingSize) {
@@ -67,7 +75,7 @@ public class Food {
     }
 
     public int getCalories() {
-            return this.calories;
+        return this.calories;
     }
 
     public void setCalories(int calories) {
@@ -75,7 +83,11 @@ public class Food {
     }
 
     public String getStyle() {
+        if (this.style.length() > 0) {
             return this.style;
+        } else {
+            return "";
+        }
     }
 
     public void setStyle(String style) {
