@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
 
+
 /**
  * @author Owner
  */
@@ -81,27 +82,27 @@ public class Controller implements Initializable {
             for (int i = 0; i < foodView.size(); i++) {
                 
                 Label label = new Label(foodView.get(i).getName()); // Create each node with data
-                Label label1 = new Label(""+foodView.get(i).getFoodGroups());
-                Label label2 = new Label("    "+foodView.get(i).getCalories());
-                Button delete = new Button();
+                Label fgLabel = new Label(String.valueOf(foodView.get(i).getFoodGroups()));
+                Label caloriesLabel = new Label(String.valueOf(foodView.get(i).getCalories()));
+                Button delBtn = new Button();
                 System.out.println(foodView.get(i).getName());
-                delete.setPrefSize(80, 20);
-                delete.setText("Delete");
+                delBtn.setPrefSize(60, 20);
+                delBtn.setText("Del");
                 label.setPrefSize(70, 20);
-                label1.setPrefSize(100, 20);
-                label2.setPrefSize(60, 20);
+                fgLabel.setPrefSize(100, 20);
+                caloriesLabel.setPrefSize(60, 20);
                 GridPane.setRowIndex(label, i+6);
                 GridPane.setColumnIndex(label, 1);
-                GridPane.setRowIndex(label1, i+6);
-                GridPane.setColumnIndex(label1, 2);
-                GridPane.setRowIndex(label2, i+6);
-                GridPane.setColumnIndex(label2, 3);
-                GridPane.setRowIndex(delete, i+6);
-                GridPane.setColumnIndex(delete, 5);
+                GridPane.setRowIndex(fgLabel, i+6);
+                GridPane.setColumnIndex(fgLabel, 2);
+                GridPane.setRowIndex(caloriesLabel, i+6);
+                GridPane.setColumnIndex(caloriesLabel, 3);
+                GridPane.setRowIndex(delBtn, i+6);
+                GridPane.setColumnIndex(delBtn, 5);
                 
-                System.out.println(GridPane.getRowIndex(label));
+                // System.out.println(GridPane.getRowIndex(label));
                 
-                foodNodes.getChildren().addAll(label,label1,label2,delete);
+                foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,delBtn);
             }
         } catch (Exception e) {
             e.printStackTrace();

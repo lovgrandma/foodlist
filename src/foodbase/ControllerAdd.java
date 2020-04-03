@@ -28,6 +28,7 @@ import javafx.stage.WindowEvent;
  * @author Owner
  */
 public class ControllerAdd implements Initializable {
+    
     @FXML
     Button confirmAdd, cancelAdd;
     
