@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -84,25 +85,31 @@ public class Controller implements Initializable {
                 Label label = new Label(foodView.get(i).getName()); // Create each node with data
                 Label fgLabel = new Label(String.valueOf(foodView.get(i).getFoodGroups()));
                 Label caloriesLabel = new Label(String.valueOf(foodView.get(i).getCalories()));
+                Button editBtn = new Button("edit");
                 Button delBtn = new Button();
                 System.out.println(foodView.get(i).getName());
-                delBtn.setPrefSize(60, 20);
+                label.setPrefWidth(20);
+                label.setAlignment(Pos.BASELINE_LEFT);
+                delBtn.setPrefSize(50, 20);
+                editBtn.setPrefSize(50, 20);
                 delBtn.setText("Del");
                 label.setPrefSize(70, 20);
-                fgLabel.setPrefSize(100, 20);
-                caloriesLabel.setPrefSize(60, 20);
+                fgLabel.setPrefSize(80, 20);
+                caloriesLabel.setPrefSize(40, 20);
                 GridPane.setRowIndex(label, i+6);
                 GridPane.setColumnIndex(label, 1);
                 GridPane.setRowIndex(fgLabel, i+6);
                 GridPane.setColumnIndex(fgLabel, 2);
                 GridPane.setRowIndex(caloriesLabel, i+6);
                 GridPane.setColumnIndex(caloriesLabel, 3);
+                GridPane.setRowIndex(editBtn, i+6);
+                GridPane.setColumnIndex(editBtn, 4);
                 GridPane.setRowIndex(delBtn, i+6);
                 GridPane.setColumnIndex(delBtn, 5);
                 
                 // System.out.println(GridPane.getRowIndex(label));
                 
-                foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,delBtn);
+                foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
             }
         } catch (Exception e) {
             e.printStackTrace();
