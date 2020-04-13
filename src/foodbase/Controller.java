@@ -1,4 +1,11 @@
 package foodbase;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -22,6 +29,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.WindowEvent;
 
 
@@ -46,6 +54,11 @@ public class Controller implements Initializable {
     
     ArrayList<Food> dataFood = new ArrayList<Food>(); // Holds entire database from file
     ArrayList<Food> foodView = new ArrayList<Food>(); // Current view of appended food nodes the user sees on screen
+    File file;
+    FileOutputStream fo;
+    FileInputStream fi;
+    ObjectInputStream oi;
+    ObjectOutputStream os; 
     
     @FXML
     void handleAdd(MouseEvent event) throws Exception { // Open view to add new food
@@ -82,7 +95,6 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
     
     void handleEdit(Food food, MouseEvent event, int i) {
@@ -167,14 +179,37 @@ public class Controller implements Initializable {
                     }
                 });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
+                this.saveData();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     };
     
+    void saveData() throws FileNotFoundException, IOException, ClassNotFoundException {
+        fo = new FileOutputStream("foodDb.dat"); // path
+        os = new ObjectOutputStream(fo); // new output stream
+        os.writeObject(dataFood); // write method to array
+    }
+    void loadData() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
+        file = new File("foodDb.dat");
+        file.createNewFile(); // Creates file if needed
+        fi = new FileInputStream(file.getName()); // pass user file name 
+        oi = new ObjectInputStream(fi); 
+        System.out.println("in if");
+
+        dataFood = (ArrayList) oi.readObject(); // type cast read object as array list
+        this.appendFoodview(dataFood);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            this.loadData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         addNew.setOnMouseClicked((MouseEvent event)-> {    
             try {
                 this.handleAdd(event);

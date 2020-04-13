@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.lang.Enum;
 
-public class Food {
+public class Food implements java.io.Serializable {
     
     private UUID uuid;
     private String name = "";
