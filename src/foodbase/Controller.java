@@ -85,11 +85,16 @@ public class Controller implements Initializable {
         }
     }
     
+    /**
+     * Handles deletion of foods
+     * @param food
+     * @param event
+     * @param i 
+     */
     void handleDel(Food food, MouseEvent event, int i) {
         try {
             System.out.println(foodNodes.getChildren().get(i));
             System.out.println(i);
-            // System.out.println(dataFood.remove(foodNodes.getChildren().get(foodNodes.getRowIndex(delBtn))));
             dataFood.remove(i);
             appendFoodview(dataFood);
         } catch (Exception e) {
@@ -97,6 +102,12 @@ public class Controller implements Initializable {
         }
     }
     
+    /**
+     * Handles edit functionality. Creates controller needed to edit food with existing food object
+     * @param food
+     * @param event
+     * @param i 
+     */
     void handleEdit(Food food, MouseEvent event, int i) {
         try {
             ControllerAdd b = new ControllerAdd(true, food);
@@ -170,6 +181,7 @@ public class Controller implements Initializable {
                     }
                 });
                 
+                // Set edit button event. Will create edit dialogue on click.
                 editBtn.setOnMouseClicked((MouseEvent event2)-> {
                     try {
                         System.out.println(foodNodes.getRowIndex(editBtn));
@@ -179,37 +191,51 @@ public class Controller implements Initializable {
                     }
                 });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
-                this.saveData();
+                this.saveData(); // Save data to file after appending.
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     };
     
+    /**
+     * Save functionality. Run anywhere where saving is necessary. Runs after every append
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     void saveData() throws FileNotFoundException, IOException, ClassNotFoundException {
         fo = new FileOutputStream("foodDb.dat"); // path
         os = new ObjectOutputStream(fo); // new output stream
         os.writeObject(dataFood); // write method to array
     }
+    
+    /**
+     * Auto loads database on startup
+     * Creates a database file that holds an array. Currently throws error if file is empty.
+     * Creates input stream, object stream and loads object from file into memory. At this point it will run appendFoodView
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws Exception 
+     */
     void loadData() throws FileNotFoundException, IOException, ClassNotFoundException, Exception {
         file = new File("foodDb.dat");
         file.createNewFile(); // Creates file if needed
         fi = new FileInputStream(file.getName()); // pass user file name 
         oi = new ObjectInputStream(fi); 
-        System.out.println("in if");
-
         dataFood = (ArrayList) oi.readObject(); // type cast read object as array list
         this.appendFoodview(dataFood);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Loads database info on startup
         try {
             this.loadData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
         addNew.setOnMouseClicked((MouseEvent event)-> {    
             try {
                 this.handleAdd(event);
