@@ -62,7 +62,7 @@ public class Controller implements Initializable {
             stage.setOnCloseRequest((WindowEvent event2)-> { 
                 dataFood.add(a.consolidate());
                 try {
-                    this.appendFoodview(dataFood, a);
+                    this.appendFoodview(dataFood);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -70,6 +70,19 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    
+    void handleDel(Food food, MouseEvent event, int i) {
+        try {
+            System.out.println(foodNodes.getChildren().get(i));
+            System.out.println(i);
+            // System.out.println(dataFood.remove(foodNodes.getChildren().get(foodNodes.getRowIndex(delBtn))));
+            dataFood.remove(i);
+            appendFoodview(dataFood);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
     
     void handleEdit(Food food, MouseEvent event, int i) {
@@ -91,7 +104,7 @@ public class Controller implements Initializable {
                     for (int j = 0; j < dataFood.size(); j++) {
                         System.out.println(dataFood.get(j).getName());
                     }
-                    this.appendFoodview(dataFood, b);
+                    this.appendFoodview(dataFood);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -102,7 +115,7 @@ public class Controller implements Initializable {
     }
     
     // Will append foods to the view for user to see 
-    void appendFoodview(ArrayList<Food> data, ControllerAdd a) throws Exception {
+    void appendFoodview(ArrayList<Food> data) throws Exception {
         try {
             foodView.clear(); // clear foodview array before adding all food over
             for (Food food : data) {
@@ -116,24 +129,7 @@ public class Controller implements Initializable {
                 Label caloriesLabel = new Label(String.valueOf(foodView.get(i).getCalories()));
                 Button editBtn = new Button("edit");
                 Button delBtn = new Button("del");
-                // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
-                delBtn.setOnMouseClicked((MouseEvent event)-> {
-                    try {
-                        System.out.println(foodNodes.getChildren().get(GridPane.getRowIndex(delBtn)-6));
-                        dataFood.remove(GridPane.getRowIndex(delBtn)-6);
-                        appendFoodview(data, a);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
                 
-                editBtn.setOnMouseClicked((MouseEvent event2)-> {
-                    try {
-                        this.handleEdit(dataFood.get(GridPane.getRowIndex(editBtn)-6), event2, GridPane.getRowIndex(delBtn)-6);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
                 System.out.println(foodView.get(i).getName());
                 label.setPrefWidth(20);
                 label.setAlignment(Pos.BASELINE_LEFT);
@@ -142,19 +138,34 @@ public class Controller implements Initializable {
                 label.setPrefSize(70, 20);
                 fgLabel.setPrefSize(80, 20);
                 caloriesLabel.setPrefSize(40, 20);
-                GridPane.setRowIndex(label, i+6);
-                GridPane.setColumnIndex(label, 1);
-                GridPane.setRowIndex(fgLabel, i+6);
-                GridPane.setColumnIndex(fgLabel, 2);
-                GridPane.setRowIndex(caloriesLabel, i+6);
-                GridPane.setColumnIndex(caloriesLabel, 3);
-                GridPane.setRowIndex(editBtn, i+6);
-                GridPane.setColumnIndex(editBtn, 4);
-                GridPane.setRowIndex(delBtn, i+6);
-                GridPane.setColumnIndex(delBtn, 5);
+                foodNodes.setRowIndex(label, i);
+                foodNodes.setColumnIndex(label, 1);
+                foodNodes.setRowIndex(fgLabel, i);
+                foodNodes.setColumnIndex(fgLabel, 2);
+                foodNodes.setRowIndex(caloriesLabel, i);
+                foodNodes.setColumnIndex(caloriesLabel, 3);
+                foodNodes.setRowIndex(editBtn, i);
+                foodNodes.setColumnIndex(editBtn, 4);
+                foodNodes.setRowIndex(delBtn, i);
+                foodNodes.setColumnIndex(delBtn, 5);
                 
-                // System.out.println(GridPane.getRowIndex(label));
+                // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
+                delBtn.setOnMouseClicked((MouseEvent event)-> {
+                    try {
+                        this.handleDel(dataFood.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                });
                 
+                editBtn.setOnMouseClicked((MouseEvent event2)-> {
+                    try {
+                        System.out.println(foodNodes.getRowIndex(editBtn));
+                        this.handleEdit(dataFood.get(foodNodes.getRowIndex(editBtn)), event2, foodNodes.getRowIndex(delBtn));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
             }
         } catch (Exception e) {
