@@ -44,10 +44,7 @@ public class Controller implements Initializable {
     private TextField search;
     
     @FXML
-    private Button addNew;
-    
-    @FXML
-    private ComboBox filter;
+    private Button addNew, searchBtn;
     
     @FXML
     private GridPane foodNodes;
@@ -75,7 +72,7 @@ public class Controller implements Initializable {
             stage.setOnCloseRequest((WindowEvent event2)-> { 
                 dataFood.add(a.consolidate());
                 try {
-                    this.appendFoodview(dataFood);
+                    this.appendFoodview(dataFood, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -95,8 +92,8 @@ public class Controller implements Initializable {
         try {
             System.out.println(foodNodes.getChildren().get(i));
             System.out.println(i);
-            dataFood.remove(i);
-            appendFoodview(dataFood);
+            dataFood.remove(food);
+            appendFoodview(dataFood, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,14 +117,13 @@ public class Controller implements Initializable {
             stage2.show();
             // Handle the adding of food to this controllers dataFood arraylist
             stage2.setOnCloseRequest((WindowEvent event2)-> { 
-                System.out.println(i);
-                dataFood.remove(i);
+                dataFood.remove(food);
                 dataFood.add(b.consolidate());
                 try {
                     for (int j = 0; j < dataFood.size(); j++) {
                         System.out.println(dataFood.get(j).getName());
                     }
-                    this.appendFoodview(dataFood);
+                    this.appendFoodview(dataFood, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,22 +134,18 @@ public class Controller implements Initializable {
     }
     
     // Will append foods to the view for user to see 
-    void appendFoodview(ArrayList<Food> data) throws Exception {
+    void appendFoodview(ArrayList<Food> data, Boolean search) throws Exception {
         try {
-            foodView.clear(); // clear foodview array before adding all food over
-            for (Food food : data) {
-                foodView.add(food);
-            }
             foodNodes.getChildren().clear(); // Clears current children for food nodes view
-            for (int i = 0; i < foodView.size(); i++) {
+            for (int i = 0; i < data.size(); i++) {
                 
-                Label label = new Label(foodView.get(i).getName()); // Create each node with data
-                Label fgLabel = new Label(String.valueOf(foodView.get(i).getFoodGroups()));
-                Label caloriesLabel = new Label(String.valueOf(foodView.get(i).getCalories()));
+                Label label = new Label(data.get(i).getName()); // Create each node with data
+                Label fgLabel = new Label(String.valueOf(data.get(i).getFoodGroups()));
+                Label caloriesLabel = new Label(String.valueOf(data.get(i).getCalories()));
                 Button editBtn = new Button("edit");
                 Button delBtn = new Button("del");
                 
-                System.out.println(foodView.get(i).getName());
+                System.out.println(data.get(i).getName());
                 label.setPrefWidth(20);
                 label.setAlignment(Pos.BASELINE_LEFT);
                 delBtn.setPrefSize(50, 20);
@@ -175,7 +167,7 @@ public class Controller implements Initializable {
                 // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
                 delBtn.setOnMouseClicked((MouseEvent event)-> {
                     try {
-                        this.handleDel(dataFood.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
+                        this.handleDel(data.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -185,13 +177,15 @@ public class Controller implements Initializable {
                 editBtn.setOnMouseClicked((MouseEvent event2)-> {
                     try {
                         System.out.println(foodNodes.getRowIndex(editBtn));
-                        this.handleEdit(dataFood.get(foodNodes.getRowIndex(editBtn)), event2, foodNodes.getRowIndex(delBtn));
+                        this.handleEdit(data.get(foodNodes.getRowIndex(editBtn)), event2, foodNodes.getRowIndex(delBtn));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
-                this.saveData(); // Save data to file after appending.
+                if (!search) {
+                    this.saveData(); // Save data to file after appending.
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +219,7 @@ public class Controller implements Initializable {
         fi = new FileInputStream(file.getName()); // pass user file name 
         oi = new ObjectInputStream(fi); 
         dataFood = (ArrayList) oi.readObject(); // type cast read object as array list
-        this.appendFoodview(dataFood);
+        this.appendFoodview(dataFood, false);
     }
     
     @Override
@@ -239,6 +233,21 @@ public class Controller implements Initializable {
         addNew.setOnMouseClicked((MouseEvent event)-> {    
             try {
                 this.handleAdd(event);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
+        searchBtn.setOnMouseClicked((MouseEvent event)-> {
+            try {
+                foodView.clear();
+                String text = search.getText();
+                for (Food food : dataFood) {
+                    if (food.getName().matches("(.*)" + text + "(.*)")) {
+                        foodView.add(food);
+                        System.out.println("Match " + text);
+                    }
+                }
+                this.appendFoodview(foodView, true);
             } catch (Exception e) {
                 System.out.println(e);
             }

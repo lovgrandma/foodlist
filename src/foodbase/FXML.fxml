@@ -17,9 +17,9 @@
         <ColumnConstraints halignment="CENTER"  />
     </columnConstraints>
     <Label fx:id="title" text="Foodbase!" GridPane.columnIndex="1" GridPane.columnSpan="5" />
-    <TextField fx:id="search" promptText="search.." GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="5" />
+    <TextField fx:id="search" promptText="search.." GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="4" />
+    <Button fx:id="searchBtn" text="Go!" GridPane.columnIndex="5" GridPane.rowIndex="2" />
     <Button fx:id="addNew" text="Add" GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-    <ComboBox fx:id="filter" value="filter" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     <Label fx:id="name" text="Name" GridPane.columnIndex="1" minWidth="40" GridPane.rowIndex="4" />
     <Label fx:id="foodGroup" text="Food group"  GridPane.columnIndex="2" minWidth="50" GridPane.rowIndex="4" />
     <Label fx:id="calories" text="Calories" GridPane.columnIndex="3" minWidth="50" GridPane.rowIndex="4" />
