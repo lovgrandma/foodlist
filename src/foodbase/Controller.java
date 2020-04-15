@@ -71,10 +71,11 @@ public class Controller implements Initializable {
             loader.setController(a);
             Parent root2 = (Parent) loader.load();
             Stage stage = new Stage();
-            stage.setTitle("add food");
+            stage.setTitle("Add food");
             stage.setScene(new Scene(root2));
             stage.show();
             // Handle the adding of food to this controllers dataFood arraylist
+            // The food adding logic is in the ControllerAdd class. Only runs if the user clicks "Add" on add page
             stage.setOnCloseRequest((WindowEvent event2)-> { 
                 try {
                     this.appendFoodview(a.getFoodData(), false);
@@ -98,8 +99,6 @@ public class Controller implements Initializable {
             this.resetDisp(event);
         }
         try {
-            System.out.println(foodNodes.getChildren().get(i));
-            System.out.println(i);
             dataFood.remove(food);
             appendFoodview(dataFood, false);
         } catch (Exception e) {
@@ -143,6 +142,11 @@ public class Controller implements Initializable {
         }
     }
     
+    /**
+     * Sets the display of the food information
+     * @param event
+     * @param food 
+     */
     void setDisp(MouseEvent event, Food food) {
         nameDisp.setText(food.getName());
         uuidDisp.setText(food.getUuid());
@@ -161,6 +165,10 @@ public class Controller implements Initializable {
         foodGroupDispName.setText("Food Groups:");
     }
     
+    /**
+     * Resets the display of the food information
+     * @param event 
+     */
     void resetDisp(MouseEvent event) {
         nameDisp.setText("");
         uuidDisp.setText("");
@@ -176,7 +184,13 @@ public class Controller implements Initializable {
         foodGroupDispName.setText("");
     }
     
-    // Will append foods to the view for user to see 
+    /**
+     * Will append food to the main view for user to see and interact with.
+     * Takes a data parameter for food to append and a search boolean to determine if data should be saved or not.
+     * @param data
+     * @param search
+     * @throws Exception 
+     */
     void appendFoodview(ArrayList<Food> data, Boolean search) throws Exception {
         try {
             foodNodes.getChildren().clear(); // Clears current children for food nodes view
@@ -187,12 +201,12 @@ public class Controller implements Initializable {
                 label.setOnMouseClicked(( MouseEvent event)-> {
                     this.setDisp(event, foodDispData);
                 });
+                
+                // Create nodes for each object to be displayed in the view
                 Label fgLabel = new Label(String.valueOf(data.get(i).getFoodGroups()));
                 Label caloriesLabel = new Label(String.valueOf(data.get(i).getCalories()));
                 Button editBtn = new Button("edit");
                 Button delBtn = new Button("del");
-                
-                System.out.println(data.get(i).getName());
                 label.setPrefWidth(20);
                 label.setAlignment(Pos.BASELINE_LEFT);
                 delBtn.setPrefSize(50, 20);
@@ -231,6 +245,8 @@ public class Controller implements Initializable {
                 });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
             }
+            // If this appendFoodview method was not initiated after a search, it will save the data
+            // to the file
             if (!search) {
                 this.saveData(); // Save data to file after appending.
             }
@@ -284,6 +300,11 @@ public class Controller implements Initializable {
                 System.out.println(e);
             }
         });
+        
+        /**
+         * Search Functionality. Will search using text in search field. Regex will make view default back to showing all 
+         * food objects if text is empty. If there are zero matches, a dialogue box will appear. 
+         */
         searchBtn.setOnMouseClicked((MouseEvent event)-> {
             try {
                 foodView.clear();
@@ -293,15 +314,14 @@ public class Controller implements Initializable {
                     if (food.getName().matches("(.*)" + text + "(.*)")) {
                         matches++;
                         foodView.add(food);
-                        System.out.println("Match " + text);
                     }
                 }
+                // If not matches found, produce information alert.
                 if (matches == 0) {
-                    // create a alert 
-                    Alert a = new Alert(AlertType.NONE); 
-                    a.setAlertType(AlertType.INFORMATION); 
-                    a.setContentText("Search found zero matches"); 
-                    a.show(); 
+                    Alert alert = new Alert(AlertType.NONE); 
+                    alert.setAlertType(AlertType.INFORMATION); 
+                    alert.setContentText("Search found zero matches"); 
+                    alert.show(); 
                 }
                 this.appendFoodview(foodView, true);
             } catch (Exception e) {

@@ -55,7 +55,7 @@ public class ControllerAdd implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         descField.setWrapText(true);
         if (this.edit) {
-            confirmAdd.setText("Edit");
+            confirmAdd.setText("Edit Food");
             nameField.setText(food.getName());
             servingField.setText(food.getServingSize());
             caloriesField.setText(String.valueOf(food.getCalories()));
@@ -79,7 +79,7 @@ public class ControllerAdd implements Initializable {
         confirmAdd.setOnMouseClicked((MouseEvent e2)-> {
             try {
                 Stage stage = (Stage) confirmAdd.getScene().getWindow();
-                // Include add food functionality within Controller add class
+                // Include add food functionality within Controller add class, only runs if this is not an edit page
                 if (!this.edit) {
                     this.dataFood.add(this.consolidate());
                 }
