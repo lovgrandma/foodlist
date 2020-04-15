@@ -24,6 +24,7 @@ public class Foodbase extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
         stage.setTitle("Foodbase!");
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("mainFxmlClass.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

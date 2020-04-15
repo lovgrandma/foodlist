@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType; 
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +41,10 @@ import javafx.stage.WindowEvent;
  */
 public class Controller implements Initializable {
     @FXML
-    private Label title, name, foodGroup, calories, edit, del;
+    private Label title, name, foodGroup, calories, edit, del, nameDisp,
+            uuidDisp, caloriesDisp, foodGroupDisp, descriptionDisp, servingDisp, 
+            styleDisp, uuidDispName, caloriesDispName, foodGroupDispName, servingDispName,
+            styleDispName;
     
     @FXML
     private TextField search;
@@ -60,7 +66,7 @@ public class Controller implements Initializable {
     @FXML
     void handleAdd(MouseEvent event) throws Exception { // Open view to add new food
         try {
-            ControllerAdd a = new ControllerAdd(false, null);
+            ControllerAdd a = new ControllerAdd(false, null, dataFood);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Add.fxml"));
             loader.setController(a);
             Parent root2 = (Parent) loader.load();
@@ -70,9 +76,8 @@ public class Controller implements Initializable {
             stage.show();
             // Handle the adding of food to this controllers dataFood arraylist
             stage.setOnCloseRequest((WindowEvent event2)-> { 
-                dataFood.add(a.consolidate());
                 try {
-                    this.appendFoodview(dataFood, false);
+                    this.appendFoodview(a.getFoodData(), false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -89,6 +94,9 @@ public class Controller implements Initializable {
      * @param i 
      */
     void handleDel(Food food, MouseEvent event, int i) {
+        if (food.getName().equals(nameDisp.getText())) {
+            this.resetDisp(event);
+        }
         try {
             System.out.println(foodNodes.getChildren().get(i));
             System.out.println(i);
@@ -107,7 +115,7 @@ public class Controller implements Initializable {
      */
     void handleEdit(Food food, MouseEvent event, int i) {
         try {
-            ControllerAdd b = new ControllerAdd(true, food);
+            ControllerAdd b = new ControllerAdd(true, food, dataFood);
             FXMLLoader loader2 = new FXMLLoader(getClass().getResource("Add.fxml"));
             loader2.setController(b);
             Parent root3 = (Parent) loader2.load();
@@ -120,10 +128,12 @@ public class Controller implements Initializable {
                 dataFood.remove(food);
                 dataFood.add(b.consolidate());
                 try {
-                    for (int j = 0; j < dataFood.size(); j++) {
-                        System.out.println(dataFood.get(j).getName());
-                    }
                     this.appendFoodview(dataFood, false);
+                    // if food name equals the food in the display area. Reset to show edited information.
+                    if (food.getName().equals(nameDisp.getText())) {
+                        this.resetDisp(event);
+                        this.setDisp(event, dataFood.get(dataFood.size()-1));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -133,13 +143,50 @@ public class Controller implements Initializable {
         }
     }
     
+    void setDisp(MouseEvent event, Food food) {
+        nameDisp.setText(food.getName());
+        uuidDisp.setText(food.getUuid());
+        caloriesDisp.setText(String.valueOf(food.getCalories()));
+        foodGroupDisp.setText(String.valueOf(food.getFoodGroups()));
+        descriptionDisp.setText(food.getDescription());
+        descriptionDisp.setWrapText(true);
+        servingDisp.setText(food.getServingSize());
+        servingDisp.setWrapText(true);
+        servingDispName.setText("Serving:");
+        styleDisp.setText(food.getStyle());
+        styleDisp.setWrapText(true);
+        styleDispName.setText("Style:");
+        uuidDispName.setText("Uuid:");
+        caloriesDispName.setText("Calories:");
+        foodGroupDispName.setText("Food Groups:");
+    }
+    
+    void resetDisp(MouseEvent event) {
+        nameDisp.setText("");
+        uuidDisp.setText("");
+        caloriesDisp.setText("");
+        foodGroupDisp.setText("");
+        descriptionDisp.setText("");
+        servingDisp.setText("");
+        servingDispName.setText("");
+        styleDisp.setText("");
+        styleDispName.setText("");
+        uuidDispName.setText("");
+        caloriesDispName.setText("");
+        foodGroupDispName.setText("");
+    }
+    
     // Will append foods to the view for user to see 
     void appendFoodview(ArrayList<Food> data, Boolean search) throws Exception {
         try {
             foodNodes.getChildren().clear(); // Clears current children for food nodes view
             for (int i = 0; i < data.size(); i++) {
-                
+                Food foodDispData = data.get(i);
                 Label label = new Label(data.get(i).getName()); // Create each node with data
+                label.getStyleClass().add("foodNameLabel");
+                label.setOnMouseClicked(( MouseEvent event)-> {
+                    this.setDisp(event, foodDispData);
+                });
                 Label fgLabel = new Label(String.valueOf(data.get(i).getFoodGroups()));
                 Label caloriesLabel = new Label(String.valueOf(data.get(i).getCalories()));
                 Button editBtn = new Button("edit");
@@ -183,12 +230,12 @@ public class Controller implements Initializable {
                     }
                 });
                 foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
-                if (!search) {
-                    this.saveData(); // Save data to file after appending.
-                }
+            }
+            if (!search) {
+                this.saveData(); // Save data to file after appending.
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Foods did not append successfully to list " + e);
         }
     };
     
@@ -241,11 +288,20 @@ public class Controller implements Initializable {
             try {
                 foodView.clear();
                 String text = search.getText();
+                int matches = 0;
                 for (Food food : dataFood) {
                     if (food.getName().matches("(.*)" + text + "(.*)")) {
+                        matches++;
                         foodView.add(food);
                         System.out.println("Match " + text);
                     }
+                }
+                if (matches == 0) {
+                    // create a alert 
+                    Alert a = new Alert(AlertType.NONE); 
+                    a.setAlertType(AlertType.INFORMATION); 
+                    a.setContentText("Search found zero matches"); 
+                    a.show(); 
                 }
                 this.appendFoodview(foodView, true);
             } catch (Exception e) {

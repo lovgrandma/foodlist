@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<GridPane id="GridPane" prefHeight="300.0" prefWidth="370.0" alignment="TOP_CENTER" vgap="5" hgap="14" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="foodbase.Controller">
+<GridPane id="GridPane" prefHeight="460.0" prefWidth="370.0" alignment="TOP_CENTER" vgap="5" hgap="14" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="foodbase.Controller" stylesheets="@mainFxmlClass.css">
     <padding>
         <Insets top="5" left="5" bottom="5" right="5"/>
     </padding>
@@ -17,15 +17,27 @@
         <ColumnConstraints halignment="CENTER"  />
     </columnConstraints>
     <Label fx:id="title" text="Foodbase!" GridPane.columnIndex="1" GridPane.columnSpan="5" />
-    <TextField fx:id="search" promptText="search.." GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="4" />
+    <Button fx:id="addNew" text="Add" GridPane.halignment="LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="search" promptText="search.." GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.columnSpan="3" />
     <Button fx:id="searchBtn" text="Go!" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-    <Button fx:id="addNew" text="Add" GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-    <Label fx:id="name" text="Name" GridPane.columnIndex="1" minWidth="40" GridPane.rowIndex="4" />
-    <Label fx:id="foodGroup" text="Food group"  GridPane.columnIndex="2" minWidth="50" GridPane.rowIndex="4" />
-    <Label fx:id="calories" text="Calories" GridPane.columnIndex="3" minWidth="50" GridPane.rowIndex="4" />
-    <Label fx:id="edit" text="&#x270E;" GridPane.columnIndex="4" alignment="BASELINE_CENTER" minWidth="50" GridPane.rowIndex="4" />
-    <Label fx:id="del" text="&#x00d7;" GridPane.columnIndex="5" alignment="BASELINE_CENTER" minWidth="50" GridPane.rowIndex="4" />
-    <GridPane fx:id="foodNodes" GridPane.columnIndex="1" hgap="4" GridPane.columnSpan="5" GridPane.rowIndex="5" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
+    <Label fx:id="name" text="Name" GridPane.columnIndex="1" minWidth="40" GridPane.rowIndex="3" />
+    <Label fx:id="foodGroup" text="Food group"  GridPane.columnIndex="2" minWidth="50" GridPane.rowIndex="3" />
+    <Label fx:id="calories" text="Calories" GridPane.columnIndex="3" minWidth="50" GridPane.rowIndex="3" />
+    <Label fx:id="edit" text="&#x270E;" GridPane.columnIndex="4" alignment="BASELINE_CENTER" minWidth="50" GridPane.rowIndex="3" />
+    <Label fx:id="del" text="&#x00d7;" GridPane.columnIndex="5" alignment="BASELINE_CENTER" minWidth="50" GridPane.rowIndex="3" />
+    <GridPane fx:id="foodNodes" GridPane.columnIndex="1" hgap="4" GridPane.columnSpan="5" GridPane.rowIndex="4" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
         
     </GridPane>
+    <Label fx:id="nameDisp" styleClass="nameDisp" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="5" />
+    <Label fx:id="uuidDispName" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    <Label fx:id="uuidDisp" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.columnSpan="4" />
+    <Label fx:id="caloriesDispName" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+    <Label fx:id="caloriesDisp" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+    <Label fx:id="foodGroupDispName" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+    <Label fx:id="foodGroupDisp" GridPane.columnIndex="4" GridPane.rowIndex="7" GridPane.columnSpan="2" />
+    <Label fx:id="descriptionDisp" GridPane.columnIndex="1" GridPane.rowIndex="8" prefHeight="70.0" maxWidth="270.0" GridPane.columnSpan="5" />
+    <Label fx:id="servingDispName" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+    <Label fx:id="servingDisp" GridPane.columnIndex="2" GridPane.rowIndex="9" prefHeight="40.0" maxWidth="220.0" GridPane.columnSpan="4" />
+    <Label fx:id="styleDispName" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+    <Label fx:id="styleDisp" GridPane.columnIndex="2" GridPane.rowIndex="10" maxWidth="220.0" GridPane.columnSpan="4" />
 </GridPane>

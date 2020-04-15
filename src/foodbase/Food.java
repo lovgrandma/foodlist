@@ -83,11 +83,7 @@ public class Food implements java.io.Serializable {
     }
 
     public String getStyle() {
-        if (this.style.length() > 0) {
-            return this.style;
-        } else {
-            return "";
-        }
+        return this.style;
     }
 
     public void setStyle(String style) {

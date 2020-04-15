@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.WindowEvent;
 
@@ -30,10 +31,12 @@ import javafx.stage.WindowEvent;
 public class ControllerAdd implements Initializable {
     private Boolean edit = false;
     private Food food;
+    private ArrayList<Food> dataFood;
     // Set edit to true if editing food instead of adding
-    ControllerAdd(Boolean edit, Food food) {
+    ControllerAdd(Boolean edit, Food food, ArrayList<Food> dataFood) {
         this.edit = edit;
         this.food = food;
+        this.dataFood = dataFood;
     }
     
     @FXML
@@ -43,10 +46,14 @@ public class ControllerAdd implements Initializable {
     CheckBox dairy, protein, vege, grain, fruit;
     
     @FXML
-    TextField nameField, servingField, caloriesField, descField, styleField;
+    TextField nameField, servingField, caloriesField, styleField;
             
+    @FXML
+    TextArea descField;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        descField.setWrapText(true);
         if (this.edit) {
             confirmAdd.setText("Edit");
             nameField.setText(food.getName());
@@ -72,6 +79,10 @@ public class ControllerAdd implements Initializable {
         confirmAdd.setOnMouseClicked((MouseEvent e2)-> {
             try {
                 Stage stage = (Stage) confirmAdd.getScene().getWindow();
+                // Include add food functionality within Controller add class
+                if (!this.edit) {
+                    this.dataFood.add(this.consolidate());
+                }
                 stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
             } catch (Exception e) {
                 System.out.println(e);
@@ -85,6 +96,10 @@ public class ControllerAdd implements Initializable {
                 System.out.println(e);
             }
         });
+    }
+    
+    public ArrayList<Food> getFoodData() {
+        return this.dataFood;
     }
     
     public Food consolidate() {
@@ -118,15 +133,24 @@ public class ControllerAdd implements Initializable {
                 if (servingField.getText().length() > 0) {
                     food.setServingSize(servingField.getText());
                 }
+                // Required field, will fail if input not valid
                 if (caloriesField.getText().length() > 0) {
-                    food.setCalories(Integer.parseInt(caloriesField.getText()));
+                    try {
+                        food.setCalories(Integer.parseInt(caloriesField.getText()));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please insert an appropriate calories value ");
+                        return null;
+                    }
+                }
+                if (styleField.getText().length() >0) {
+                    food.setStyle(styleField.getText());
                 }
                 return food;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
             return null;
         }
     } 

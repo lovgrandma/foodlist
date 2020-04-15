@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<GridPane id="GridPane" prefHeight="300.0" prefWidth="280.0" alignment="TOP_CENTER" vgap="5" hgap="5" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane id="GridPane" prefHeight="300.0" prefWidth="370.0" alignment="TOP_CENTER" vgap="5" hgap="5" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1">
     <Label fx:id="nameInp" text="name" GridPane.rowIndex="1" GridPane.columnIndex="1" />
     <TextField fx:id="nameField" promptText="name of dish" GridPane.rowIndex="1" GridPane.columnIndex="2" />
     <Label fx:id="foodGroupInp" text="Food group" GridPane.rowIndex="2" GridPane.columnIndex="1" />
@@ -22,7 +22,7 @@
     <Label fx:id="caloriesInp" text="Calories" GridPane.rowIndex="7" GridPane.columnIndex="1" />
     <TextField fx:id="caloriesField" promptText="typical amount of calories" GridPane.rowIndex="7" GridPane.columnIndex="2" />
     <Label fx:id="descInp" text="Description" GridPane.rowIndex="8" GridPane.columnIndex="1" />
-    <TextField fx:id="descField" promptText="detailed description of dish" GridPane.rowIndex="8" GridPane.columnIndex="2" />
+    <TextArea fx:id="descField" promptText="detailed description of dish" maxHeight="50.0" prefWidth="100.0" maxWidth="150.0" GridPane.rowIndex="8" GridPane.columnIndex="2" />
     <Label fx:id="styleInp" text="Style" GridPane.rowIndex="9" GridPane.columnIndex="1" />
     <TextField fx:id="styleField" promptText="style of dish" GridPane.rowIndex="9" GridPane.columnIndex="2" />
     <Button fx:id="confirmAdd" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="10" />
