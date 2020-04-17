@@ -251,7 +251,8 @@ public class Controller implements Initializable {
                 this.saveData(); // Save data to file after appending.
             }
         } catch (Exception e) {
-            System.out.println("Foods did not append successfully to list " + e);
+            System.out.println("Foods did not append successfully to list ");
+            e.printStackTrace();
         }
     };
     
