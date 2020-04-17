@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType; 
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
@@ -227,11 +229,26 @@ public class Controller implements Initializable {
                 
                 // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
                 delBtn.setOnMouseClicked((MouseEvent event)-> {
+                    Alert alert = new Alert(AlertType.CONFIRMATION); 
+                    alert.setTitle("Delete Record");
+                    alert.setContentText("Are you sure you want to delete this record?"); 
+                    
+                    Optional<ButtonType> choice = alert.showAndWait();
+                    
+                    if (choice.get() == null) {
+                        System.out.println("Delete cancelled");
+                    }
+                    else if (choice.get() == ButtonType.OK){
                     try {
                         this.handleDel(data.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
                     } catch (Exception e) {
                         System.out.println(e);
                     }
+                    }
+                    else {
+                        System.out.println("Delete cancelled");
+                    }
+                    
                 });
                 
                 // Set edit button event. Will create edit dialogue on click.

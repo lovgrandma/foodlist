@@ -10,6 +10,7 @@ and open the template in the editor.
 
 .foodNameLabel:hover {     
     -fx-cursor:hand;
+    -fx-text-fill:blue;
 }
 
 .nameDisp {
