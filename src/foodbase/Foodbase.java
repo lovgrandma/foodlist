@@ -31,13 +31,6 @@ public class Foodbase extends Application {
     
     public static void main(String[] args) {
         launch(args);
-        // This array intializing functionality could go into GUI class. This array is
-        // used to add foodgroup values to new food.
-//        ArrayList<FoodGroup> foodgroups = new ArrayList();
-//        foodgroups.add(FoodGroup.DAIRY);
-//        foodgroups.add(FoodGroup.GRAINS);
-//        Food a = new Food("Chicken", "A great dish!", foodgroups);
-//        print(a.toString());
     }
         
 }

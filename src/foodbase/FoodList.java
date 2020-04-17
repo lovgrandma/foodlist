@@ -1,6 +1,10 @@
 package foodbase;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Jesse
+ */
 public class FoodList {
 
 	private ArrayList<Food> foodList;

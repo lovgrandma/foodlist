@@ -4,6 +4,10 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.lang.Enum;
 
+/**
+ * 
+ * @author Jesse
+ */
 public class Food implements java.io.Serializable {
     
     private UUID uuid;
@@ -24,22 +28,42 @@ public class Food implements java.io.Serializable {
         }
     }
 
+    /**
+     * Return UUID
+     * @return 
+     */
     public String getUuid() {
             return this.uuid.toString();
     }
 
+    /**
+     * Set UUID
+     * @return 
+     */
     private UUID setUuid() {
             return this.uuid = UUID.randomUUID();
     }
 
+    /**
+     * Get name
+     * @return 
+     */
     public String getName() {
             return this.name;
     }
 
+    /**
+     * Set name
+     * @param name 
+     */
     public void setName(String name) {
             this.name = name;
     }
 
+    /**
+     * Get description of food
+     * @return 
+     */
     public String getDescription() {
         if (this.description.length() > 0) {
             return this.description;
@@ -48,20 +72,23 @@ public class Food implements java.io.Serializable {
         }
     }
 
+    /**
+     * Set description of food
+     * @param description 
+     */
     public void setDescription(String description) {
-            this.description = description;
+        this.description = description;
     }
 
-    // Gets arraylist of all foodgroups belonging to food
+    // Returns arraylist of all foodgroups belonging to food
     public ArrayList<FoodGroup> getFoodGroups() {
             return this.FoodGroups;
     }
 
-      // Need to add functionality that prevents foodgroups from being added twice
-//    public void setFoodGroup(ArrayList<FoodGroup> foodGroup) {
-//            this.FoodGroups = foodGroup;
-//    }
-
+    /**
+     * Return serving size
+     * @return 
+     */
     public String getServingSize() {
         if (this.servingSize.length() > 0) {
             return this.servingSize;
@@ -70,26 +97,51 @@ public class Food implements java.io.Serializable {
         }
     }
 
+    /** 
+     * Set serving size
+     * @param servingSize 
+     */
     public void setServingSize(String servingSize) {
             this.servingSize = servingSize;
     }
 
+    /** 
+     * Get calories
+     * @return 
+     */
     public int getCalories() {
         return this.calories;
     }
 
+    /** 
+     * Set calories
+     * @param calories 
+     */
     public void setCalories(int calories) {
             this.calories = calories;
     }
 
+    /** 
+     * Get style
+     * @return 
+     */
     public String getStyle() {
         return this.style;
     }
 
+    /** 
+     * Set style
+     * @param style 
+     */
     public void setStyle(String style) {
             this.style = style;
     }
 
+    /**
+     * Overridden toString method
+     * @return 
+     */
+    @Override
     public String toString() {
         String output = this.getName() + "\nDescription: " + this.getDescription() + "\n";
         if (this.FoodGroups.size() > 0) {

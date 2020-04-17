@@ -1,6 +1,11 @@
 package foodbase;
 import java.util.ArrayList;
 
+/**
+ * Deprecated. GUI functionality maintained in controller class.
+ * @author Jesse
+ */
+
 public class Gui {
 
 	public Gui() {

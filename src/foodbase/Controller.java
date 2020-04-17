@@ -65,6 +65,12 @@ public class Controller implements Initializable {
     ObjectInputStream oi;
     ObjectOutputStream os; 
     
+    /**
+     * Handles adding of foods. Creates a new page and uses ControllerAdd controller to 
+     * manage the logic of adding the food.
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     void handleAdd(MouseEvent event) throws Exception { // Open view to add new food
         try {
@@ -82,7 +88,7 @@ public class Controller implements Initializable {
                 try {
                     this.appendFoodview(a.getFoodData(), false);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                 }
             });
         } catch (Exception e) {
@@ -104,7 +110,7 @@ public class Controller implements Initializable {
             dataFood.remove(food);
             appendFoodview(dataFood, false);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
     
@@ -136,11 +142,11 @@ public class Controller implements Initializable {
                         this.setDisp(event, dataFood.get(dataFood.size()-1));
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println(e);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
     
@@ -194,82 +200,89 @@ public class Controller implements Initializable {
      * @throws Exception 
      */
     void appendFoodview(ArrayList<Food> data, Boolean search) throws Exception {
-        try {
-            foodNodes.getChildren().clear(); // Clears current children for food nodes view
-            for (int i = 0; i < data.size(); i++) {
-                Food foodDispData = data.get(i);
-                Label label = new Label(data.get(i).getName()); // Create each node with data
-                label.getStyleClass().add("foodNameLabel");
-                label.setOnMouseClicked(( MouseEvent event)-> {
-                    this.setDisp(event, foodDispData);
-                });
-                
-                // Create nodes for each object to be displayed in the view
-                Label fgLabel = new Label(String.valueOf(data.get(i).getFoodGroups()));
-                Label caloriesLabel = new Label(String.valueOf(data.get(i).getCalories()));
-                Button editBtn = new Button("edit");
-                Button delBtn = new Button("del");
-                label.setPrefWidth(20);
-                label.setAlignment(Pos.BASELINE_LEFT);
-                delBtn.setPrefSize(50, 20);
-                editBtn.setPrefSize(50, 20);
-                label.setPrefSize(70, 20);
-                fgLabel.setPrefSize(80, 20);
-                caloriesLabel.setPrefSize(40, 20);
-                foodNodes.setRowIndex(label, i);
-                foodNodes.setColumnIndex(label, 1);
-                foodNodes.setRowIndex(fgLabel, i);
-                foodNodes.setColumnIndex(fgLabel, 2);
-                foodNodes.setRowIndex(caloriesLabel, i);
-                foodNodes.setColumnIndex(caloriesLabel, 3);
-                foodNodes.setRowIndex(editBtn, i);
-                foodNodes.setColumnIndex(editBtn, 4);
-                foodNodes.setRowIndex(delBtn, i);
-                foodNodes.setColumnIndex(delBtn, 5);
-                
-                // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
-                delBtn.setOnMouseClicked((MouseEvent event)-> {
-                    Alert alert = new Alert(AlertType.CONFIRMATION); 
-                    alert.setTitle("Delete Record");
-                    alert.setContentText("Are you sure you want to delete this record?"); 
-                    
-                    Optional<ButtonType> choice = alert.showAndWait();
-                    
-                    if (choice.get() == null) {
-                        System.out.println("Delete cancelled");
-                    }
-                    else if (choice.get() == ButtonType.OK){
-                    try {
-                        this.handleDel(data.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-                    }
-                    else {
-                        System.out.println("Delete cancelled");
-                    }
-                    
-                });
-                
-                // Set edit button event. Will create edit dialogue on click.
-                editBtn.setOnMouseClicked((MouseEvent event2)-> {
-                    try {
-                        System.out.println(foodNodes.getRowIndex(editBtn));
-                        this.handleEdit(data.get(foodNodes.getRowIndex(editBtn)), event2, foodNodes.getRowIndex(delBtn));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-                foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
+        Boolean badInput = false;
+        for (Food food : data) {
+            if (data == null) {
+                badInput = true;
             }
-            // If this appendFoodview method was not initiated after a search, it will save the data
-            // to the file
-            if (!search) {
-                this.saveData(); // Save data to file after appending.
+        }
+        if (!badInput) {
+            try {
+                foodNodes.getChildren().clear(); // Clears current children for food nodes view
+                // Iterate through each food in the array passed to the method
+                for (int i = 0; i < data.size(); i++) {
+                    Food foodDispData = data.get(i);
+                    Label label = new Label(data.get(i).getName()); // Create each node with data
+                    label.getStyleClass().add("foodNameLabel");
+                    label.setOnMouseClicked(( MouseEvent event)-> {
+                        this.setDisp(event, foodDispData);
+                    });
+
+                    // Create nodes for each object to be displayed in the view
+                    Label fgLabel = new Label(String.valueOf(data.get(i).getFoodGroups()));
+                    Label caloriesLabel = new Label(String.valueOf(data.get(i).getCalories()));
+                    Button editBtn = new Button("edit");
+                    Button delBtn = new Button("del");
+                    label.setPrefWidth(20);
+                    label.setAlignment(Pos.BASELINE_LEFT);
+                    delBtn.setPrefSize(50, 20);
+                    editBtn.setPrefSize(50, 20);
+                    label.setPrefSize(70, 20);
+                    fgLabel.setPrefSize(80, 20);
+                    caloriesLabel.setPrefSize(40, 20);
+                    foodNodes.setRowIndex(label, i);
+                    foodNodes.setColumnIndex(label, 1);
+                    foodNodes.setRowIndex(fgLabel, i);
+                    foodNodes.setColumnIndex(fgLabel, 2);
+                    foodNodes.setRowIndex(caloriesLabel, i);
+                    foodNodes.setColumnIndex(caloriesLabel, 3);
+                    foodNodes.setRowIndex(editBtn, i);
+                    foodNodes.setColumnIndex(editBtn, 4);
+                    foodNodes.setRowIndex(delBtn, i);
+                    foodNodes.setColumnIndex(delBtn, 5);
+
+                    // Delete method, gets row number of del button clicked and gets food based on row index -6 and deletes from data array
+                    delBtn.setOnMouseClicked((MouseEvent event)-> {
+                        Alert alert = new Alert(AlertType.CONFIRMATION); 
+                        alert.setTitle("Delete Record");
+                        alert.setContentText("Are you sure you want to delete this record?"); 
+
+                        Optional<ButtonType> choice = alert.showAndWait();
+
+                        if (choice.get() == null) {
+                            System.out.println("Delete cancelled");
+                        }
+                        else if (choice.get() == ButtonType.OK){
+                            try {
+                                this.handleDel(data.get(foodNodes.getRowIndex(delBtn)), event, foodNodes.getRowIndex(delBtn));
+                            } catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        }
+                        else {
+                            System.out.println("Delete cancelled");
+                        }
+                    });
+
+                    // Set edit button event. Will create edit dialogue on click.
+                    editBtn.setOnMouseClicked((MouseEvent event2)-> {
+                        try {
+                            System.out.println(foodNodes.getRowIndex(editBtn));
+                            this.handleEdit(data.get(foodNodes.getRowIndex(editBtn)), event2, foodNodes.getRowIndex(delBtn));
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+                    foodNodes.getChildren().addAll(label,fgLabel,caloriesLabel,editBtn, delBtn);
+                }
+                // If this appendFoodview method was not initiated after a search, it will save the data
+                // to the file
+                if (!search) {
+                    this.saveData(); // Save data to file after appending.
+                }
+            } catch (Exception e) {
+                System.out.println("Foods did not append successfully to list ");
             }
-        } catch (Exception e) {
-            System.out.println("Foods did not append successfully to list ");
-            e.printStackTrace();
         }
     };
     
@@ -280,9 +293,13 @@ public class Controller implements Initializable {
      * @throws ClassNotFoundException 
      */
     void saveData() throws FileNotFoundException, IOException, ClassNotFoundException {
-        fo = new FileOutputStream("foodDb.dat"); // path
-        os = new ObjectOutputStream(fo); // new output stream
-        os.writeObject(dataFood); // write method to array
+        try {
+            fo = new FileOutputStream("foodDb.dat"); // path
+            os = new ObjectOutputStream(fo); // new output stream
+            os.writeObject(dataFood); // write method to array
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
     /**
@@ -309,7 +326,7 @@ public class Controller implements Initializable {
         try {
             this.loadData();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         addNew.setOnMouseClicked((MouseEvent event)-> {    
             try {

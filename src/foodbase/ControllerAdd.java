@@ -54,6 +54,10 @@ public class ControllerAdd implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         descField.setWrapText(true);
+        /**
+         * If this instance is created as an edit page instead of add page
+         * do appropriate operations to edit food instead of adding food
+         */
         if (this.edit) {
             confirmAdd.setText("Edit Food");
             nameField.setText(food.getName());
@@ -76,18 +80,32 @@ public class ControllerAdd implements Initializable {
                 }
             }
         }
+        /**
+         * Confirms the user wishes to add the food with the info they input
+         * onto the page
+         */
         confirmAdd.setOnMouseClicked((MouseEvent e2)-> {
             try {
                 Stage stage = (Stage) confirmAdd.getScene().getWindow();
                 // Include add food functionality within Controller add class, only runs if this is not an edit page
                 if (!this.edit) {
-                    this.dataFood.add(this.consolidate());
+                    // If the data input creates a valid food object, add it to 
+                    // the data array. 
+                    Food food = this.consolidate();
+                    System.out.println(food);
+                    if (food != null) {
+                        this.dataFood.add(food);
+                    }
                 }
                 stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
             } catch (Exception e) {
                 System.out.println(e);
             }
         });
+        /**
+         * Cancels add and closes the window without saving the information as a 
+         * new food instance.
+         */
         cancelAdd.setOnMouseClicked((MouseEvent e3 )-> {
             try {
                 Stage stage = (Stage) cancelAdd.getScene().getWindow();
@@ -98,10 +116,18 @@ public class ControllerAdd implements Initializable {
         });
     }
     
+    // Get fooddata as arraylist
     public ArrayList<Food> getFoodData() {
         return this.dataFood;
     }
     
+    /**
+     * Consolidates all the information from the page and validates data. Logic 
+     * is conditional, as only a name, description and the selection of a single food
+     * group is required. All other fields are optional. Returns a food if valid
+     * data is input, else returns null
+     * @return Food
+     */
     public Food consolidate() {
         try {
             String name = new String();
